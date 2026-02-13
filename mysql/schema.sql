@@ -1,3 +1,6 @@
+
+SET NAMES 'utf8mb4';
+SET CHARACTER SET utf8mb4;
 -- schema.sql
 CREATE DATABASE IF NOT EXISTS demo_app
   CHARACTER SET utf8mb4

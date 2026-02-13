@@ -1,0 +1,42 @@
+services:
+  database:
+    build:
+      context: ./mysql
+      dockerfile: database.Dockerfile
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: demo_app
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: backend.Dockerfile
+    container_name: backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=demo_app
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_PORT=3306
+  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: frontend.Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
